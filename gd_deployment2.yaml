@@ -1,0 +1,133 @@
+# kubernetes deployment.yaml for cartpole python gym environment runnning on an environment in godot and exposed via kubernetes loadBalancer. the dockerfile for godot is obtained from github.com/godotengine/godot-docker.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: godot-deployment
+  labels:
+    app: godot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: godot
+  template:
+    metadata:
+      labels:
+        app: godot
+    spec:
+      containers:
+        - name: godot
+          image: godotengine/godot:3.1.1-stable
+          command: ["/bin/bash"]
+          args: ["-c", "godot -s /root/server.gd --path /root/"]
+          volumeMounts:
+            - name: godot-server-volume
+              mountPath: /root/
+          ports:
+            - containerPort: 8080
+      volumes:
+        - name: godot-server-volume
+          hostPath:
+            path: /home/ubuntu/godot-server/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: godot-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: godot
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gym-deployment
+  labels:
+    app: gym
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gym
+  template:
+    metadata:
+      labels:
+        app: gym
+    spec:
+      containers:
+        - name: gym
+          image: gym:latest
+          command: ["/bin/bash"]
+          args: ["-c", "python /root/cartpole-v1.py"]
+          volumeMounts:
+            - name: gym-server-volume
+              mountPath: /root/
+          ports:
+            - containerPort: 5000
+      volumes:
+        - name: gym-server-volume
+          hostPath:
+            path: /home/ubuntu/gym-server/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gym-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: gym
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-deployment
+  labels:
+    app: ai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai
+  template:
+    metadata:
+      labels:
+        app: ai
+    spec:
+      containers:
+        - name: ai
+          image: ai:latest
+          command: ["/bin/bash"]
+          args: ["-c", "python /root/cartpole-ai.py"]
+          volumeMounts:
+            - name: ai-server-volume
+              mountPath: /root/
+          ports:
+            - containerPort: 5001
+      volumes:
+        - name: ai-server-volume
+          hostPath:
+            path: /home/ubuntu/ai-server/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: ai
+  ports:
+    - protocol: TCP
+      port: 5001
+      targetPort: 5001
