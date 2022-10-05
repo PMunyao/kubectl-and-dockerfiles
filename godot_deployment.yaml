@@ -1,6 +1,6 @@
 # kubernetes deployment.yaml for cartpole python gym environment runnning on an environment in godot and exposed via kubernetes service
 
-```yaml
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,11 +21,10 @@ spec:
         image: cartpole:latest
         ports:
         - containerPort: 5005
-```
+---
 
 # kubernetes service.yaml for cartpole python gym environment runnning on an environment in godot and exposed via kubernetes service
 
-```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -39,11 +38,9 @@ spec:
   - protocol: TCP
     port: 5005
     targetPort: 5005
-```
-
+---
 # kubernetes deployment.yaml for godot environment using the cartpole python gym environment exposed via kubernetes service
 
-```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -64,11 +61,9 @@ spec:
         image: godot:latest
         ports:
         - containerPort: 8080
-```
+---
 
 # kubernetes service.yaml for godot environment using the cartpole python gym environment exposed via kubernetes service
-
-```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -82,11 +77,9 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-```
+---
 
 # kubernetes deployment.yaml for pytorch serving model that is used by godot environment via kubernetes service
-
-```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -107,11 +100,10 @@ spec:
         image: torchserve:latest
         ports:
         - containerPort: 8080
-```
+---
 
 # kubernetes service.yaml for pytorch serving model that is used by godot environment via kubernetes service
 
-```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -125,11 +117,10 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-```
+---
 
 # kubernetes deployment.yaml for pytorch serving model that is used by godot environment via kubernetes service
 
-```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -150,11 +141,10 @@ spec:
         image: torchserve:latest
         ports:
         - containerPort: 8080
-```
+---
 
 # kubernetes service.yaml for pytorch serving model that is used by godot environment via kubernetes service
 
-```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -168,11 +158,10 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-```
+---
 
 # kubernetes deployment.yaml for automated google colab notebook used to train and test pytorch model
 
-```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -193,11 +182,10 @@ spec:
         image: colab:latest
         ports:
         - containerPort: 8080
-```
+---
 
 # kubernetes service.yaml for automated google colab notebook used to train and test pytorch model
 
-```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -210,12 +198,10 @@ spec:
   ports:
   - protocol: TCP
     port: 8080
-    targetPort: 8080
-```
+---
 
 # kubernetes deployment.yaml for jupyter notebook used to train and test pytorch model
 
-```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -236,11 +222,10 @@ spec:
         image: jupyter:latest
         ports:
         - containerPort: 8080
-```
+---
 
 # kubernetes service.yaml for jupyter notebook used to train and test pytorch model
 
-```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -254,11 +239,10 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-```
+---
 
 # kubernetes deployment.yaml for tensorboard used to train and test pytorch model
 
-```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -279,11 +263,10 @@ spec:
         image: tensorboard:latest
         ports:
         - containerPort: 8080
-```
+---
 
 # kubernetes service.yaml for tensorboard used to train and test pytorch model
 
-```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -297,11 +280,10 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-```
+---
 
 # kubernetes deployment.yaml for tensorboard used to train and test pytorch model
 
-```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -322,11 +304,10 @@ spec:
         image: tensorboard:latest
         ports:
         - containerPort: 8080
-```
+---
 
 # kubernetes service.yaml for tensorboard used to train and test pytorch model
 
-```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -340,11 +321,10 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-```
+---
 
 # kubernetes deployment.yaml for tensorboard used to train and test pytorch model
 
-```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -365,11 +345,10 @@ spec:
         image: tensorboard:latest
         ports:
         - containerPort: 8080
-```
+---
 
 # kubernetes service.yaml for tensorboard used to train and test pytorch model
 
-```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -383,4 +362,4 @@ spec:
   - protocol: TCP
     port: 8080
     targetPort: 8080
-```
+---
