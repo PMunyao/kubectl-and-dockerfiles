@@ -1,0 +1,45 @@
+# a kubernetes deployment for a transfomer model
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transformer-deployment
+  labels:
+    app: transformer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transformer
+  template:
+    metadata:
+      labels:
+        app: transformer
+    spec:
+      containers:
+      - name: transformer
+        image: gcr.io/kfserving/kfserving-controller:latest
+        env:
+        - name: MODEL_NAME
+          value: transformer
+        - name: STORAGE_URI
+          value: "gs://kfserving-samples/models/t2t/"
+        ports:
+        - containerPort: 8080
+
+# Create a kubernetes service for the transformer model
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: transformer-service
+  labels:
+    app: transformer
+spec:
+  type: LoadBalancer
+  selector:
+    app: transformer
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
